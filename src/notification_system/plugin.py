@@ -29,7 +29,7 @@ class SystemChannel:
         ticker = str(payload.get("ticker") or title)
 
         if notification.notify is None:
-            self.ctx.logger.error("[notification_system] plyer.notification 不可用")
+            self.ctx.logger.error("plyer.notification 不可用")
             return False
 
         notification.notify(
@@ -41,7 +41,7 @@ class SystemChannel:
             ticker=ticker,
             toast=True,
         )
-        self.ctx.logger.info(f"[notification_system] 系统通知已发送: {title}")
+        self.ctx.logger.info(f"系统通知已发送: {title}")
         return True
 
     def _append_extra_summary(self, message: str, payload: dict[str, Any]) -> str:
@@ -89,10 +89,10 @@ class Plugin:
         self.channel = SystemChannel(self.ctx, config)
         notify = self.ctx.get("notify")
         notify.register_channel("system", self.channel)
-        self.ctx.logger.info("[notification_system] 通道已启动")
+        self.ctx.logger.info("通道已启动")
 
     async def on_stop(self, reason: str) -> None:
         notify = self.ctx.get("notify")
         if notify is not None:
             notify.unregister_channel("system")
-        self.ctx.logger.info(f"[notification_system] 插件停止, reason={reason}")
+        self.ctx.logger.info(f"插件停止, reason={reason}")
